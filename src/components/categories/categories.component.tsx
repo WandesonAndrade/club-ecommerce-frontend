@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 //ultilidades
-import Category from "../types/category.types";
+import Category from "../../types/category.types";
 import env from "../config/env.config";
 
 //estilos

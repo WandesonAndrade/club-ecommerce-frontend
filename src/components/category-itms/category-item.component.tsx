@@ -1,7 +1,7 @@
 import { FunctionComponent } from "react";
 
 //ultildades
-import Category from "../types/category.types";
+import Category from "../../types/category.types";
 
 //estilos
 import "./category-item.styles.css";
