@@ -7,6 +7,7 @@ import env from "../config/env.config";
 
 //estilos
 import "./categories.styles.css";
+import CategoryItem from "../category-itms/category-item.component";
 
 const Categoreis = () => {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -29,7 +30,13 @@ const Categoreis = () => {
 
   return (
     <div className="caregories-container">
-      <div className="categories-content"></div>
+      <div className="categories-content">
+        {categories.map((category) => (
+          <div key={category.id}>
+            <CategoryItem category={category} />
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
