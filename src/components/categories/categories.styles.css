@@ -1,4 +1,4 @@
-.categories-container {
+.caregories-container {
   height: 100%;
   width: 100%;
   display: flex;
@@ -7,14 +7,14 @@
 
 .categories-content {
   height: 100%;
-  width: 1920px;
+  width: 100%;
   display: grid;
   grid-template-areas:
     "a b"
     "c c"
     "d e";
-  grid-gap: 15px;
-  padding: 30px;
+  grid-gap: 20px;
+  padding: 10px;
 }
 
 .categories-content div:nth-child(1) {
