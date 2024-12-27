@@ -3,12 +3,12 @@ import { collection, getDocs } from "firebase/firestore";
 
 //ultilidades
 import Category from "../../types/category.types";
+import { db } from "../config/firebase.config";
+import CategoryItem from "../category-itms/category-item.component";
+import { categoryConverter } from "../../converters/firestore.converters";
 
 //estilos
-import "./categories.styles.css";
-import CategoryItem from "../category-itms/category-item.component";
-import { db } from "../config/firebase.config";
-import { categoryConverter } from "../../converters/firestore.converters";
+import { CategoriesContainer, CategoriesContent } from "./categories.styles";
 
 const Categoreis = () => {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -37,15 +37,15 @@ const Categoreis = () => {
   }, []);
 
   return (
-    <div className="caregories-container">
-      <div className="categories-content">
+    <CategoriesContainer>
+      <CategoriesContent>
         {categories.map((category) => (
           <div key={category.id}>
             <CategoryItem category={category} />
           </div>
         ))}
-      </div>
-    </div>
+      </CategoriesContent>
+    </CategoriesContainer>
   );
 };
 
