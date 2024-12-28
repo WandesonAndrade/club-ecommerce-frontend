@@ -1,5 +1,6 @@
 import { FcGoogle } from "react-icons/fc";
 import { CgLogIn } from "react-icons/cg";
+import { useForm } from "react-hook-form";
 
 import CostomButton from "../../components/custom-button/custom-button.component";
 import Headers from "../../components/header/header.component";
@@ -13,6 +14,16 @@ import {
 import CustomInput from "../../components/custom-input/custom-input.component";
 
 const LoginPage = () => {
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm();
+
+  const handleSubmitPress = (data: any) => {
+    console.log(data);
+  };
+
   return (
     <>
       <Headers />
@@ -26,13 +37,26 @@ const LoginPage = () => {
 
           <LoginInputContainer>
             <p>E-mail</p>
-            <CustomInput placeholder="Digite seu e-mail" />
+            <CustomInput
+              hasError={!!errors?.email}
+              placeholder="Digite seu e-mail"
+              {...register("email", { required: true })}
+            />
           </LoginInputContainer>
           <LoginInputContainer>
             <p>Senha</p>
-            <CustomInput placeholder="Digite sua senha" />
+            <CustomInput
+              hasError={!!errors?.password}
+              placeholder="Digite sua senha"
+              {...register("password", { required: true })}
+            />
           </LoginInputContainer>
-          <CostomButton startIcon={<CgLogIn size={18} />}>Entrar</CostomButton>
+          <CostomButton
+            startIcon={<CgLogIn size={18} />}
+            onClick={() => handleSubmit(handleSubmitPress)()}
+          >
+            Entrar
+          </CostomButton>
         </LoginContent>
       </LoginContainer>
     </>
