@@ -1,19 +1,26 @@
+import { FaCartShopping } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
+
 import {
   HeaderContainer,
   HeaderItem,
   HeaderItems,
   HeaderTitle,
 } from "./header.styles";
-import { FaCartShopping } from "react-icons/fa6";
 
 const Header = () => {
+  const navigate = useNavigate();
+  const heandleLoginClick = () => {
+    navigate("/login");
+  };
+
   return (
     //conteiner principal do header
     <HeaderContainer>
       <HeaderTitle>Club Ecommerce</HeaderTitle>
       <HeaderItems>
         <HeaderItem>Explorar</HeaderItem>
-        <HeaderItem>Login</HeaderItem>
+        <HeaderItem onClick={heandleLoginClick}>Login</HeaderItem>
         <HeaderItem>Criar Conta</HeaderItem>
         <HeaderItem>
           <FaCartShopping size={25} />
