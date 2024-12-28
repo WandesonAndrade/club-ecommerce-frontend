@@ -13,6 +13,9 @@ const Header = () => {
   const heandleLoginClick = () => {
     navigate("/login");
   };
+  const heandleSignUpClick = () => {
+    navigate("/SignUp");
+  };
 
   return (
     //conteiner principal do header
@@ -21,7 +24,7 @@ const Header = () => {
       <HeaderItems>
         <HeaderItem>Explorar</HeaderItem>
         <HeaderItem onClick={heandleLoginClick}>Login</HeaderItem>
-        <HeaderItem>Criar Conta</HeaderItem>
+        <HeaderItem onClick={heandleSignUpClick}>Criar Conta</HeaderItem>
         <HeaderItem>
           <FaCartShopping size={25} />
           <p style={{ marginLeft: 5 }}>5</p>
