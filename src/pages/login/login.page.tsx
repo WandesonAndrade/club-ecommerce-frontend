@@ -15,12 +15,17 @@ import {
 import CustomInput from "../../components/custom-input/custom-input.component";
 import InputErrorMessage from "../../components/input-error-message/input-error-message.component";
 
+interface LoginForm {
+  email: string;
+  password: string;
+}
+
 const LoginPage = () => {
   const {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm();
+  } = useForm<LoginForm>();
 
   const handleSubmitPress = (data: any) => {
     console.log(data);
@@ -44,7 +49,7 @@ const LoginPage = () => {
               placeholder="Digite seu e-mail"
               {...register("email", {
                 required: true,
-                validate: valitador.isEmail,
+                validate: (value) => valitador.isEmail(value),
               })}
             />
             {errors?.email?.type === "required" && (

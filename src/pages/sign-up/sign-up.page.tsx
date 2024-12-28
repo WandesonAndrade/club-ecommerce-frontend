@@ -13,13 +13,20 @@ import {
 } from "./sign-up.styles";
 import InputErrorMessage from "../../components/input-error-message/input-error-message.component";
 
+interface SignUpForm {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  passwordConfirmation: string;
+}
 const SignUpPage = () => {
   const {
     register,
     formState: { errors },
     handleSubmit,
     watch,
-  } = useForm();
+  } = useForm<SignUpForm>();
 
   const handleSubmitPress = (data: any) => {
     console.log(data);
@@ -35,11 +42,11 @@ const SignUpPage = () => {
           <SignUpInputContainer>
             <p>Nome</p>
             <CustomInput
-              hasError={!!errors?.nome}
+              hasError={!!errors?.firstName}
               placeholder="Digite seu nome"
-              {...register("nome", { required: true })}
+              {...register("firstName", { required: true })}
             />
-            {errors?.nome?.type === "required" && (
+            {errors?.firstName?.type === "required" && (
               <InputErrorMessage>O nome é obrigatório</InputErrorMessage>
             )}
           </SignUpInputContainer>
@@ -47,11 +54,11 @@ const SignUpPage = () => {
           <SignUpInputContainer>
             <p>Sobrenome</p>
             <CustomInput
-              hasError={!!errors?.sobrenome}
+              hasError={!!errors?.lastName}
               placeholder="Digite seu sobrenome"
-              {...register("sobrenome", { required: true })}
+              {...register("lastName", { required: true })}
             />
-            {errors?.sobrenome?.type === "required" && (
+            {errors?.lastName?.type === "required" && (
               <InputErrorMessage>O sobrenome é obrigatório</InputErrorMessage>
             )}
           </SignUpInputContainer>
@@ -63,7 +70,7 @@ const SignUpPage = () => {
               placeholder="Digite seu e-mail"
               {...register("email", {
                 required: true,
-                validate: valitador.isEmail,
+                validate: (value) => valitador.isEmail(value),
               })}
             />
             {errors?.email?.type === "required" && (
@@ -90,21 +97,21 @@ const SignUpPage = () => {
           <SignUpInputContainer>
             <p>Confirmação de Senha</p>
             <CustomInput
-              hasError={!!errors?.confirmPassword}
+              hasError={!!errors?.passwordConfirmation}
               type="password"
               placeholder="Confirme sua senha"
-              {...register("confirmPassword", {
+              {...register("passwordConfirmation", {
                 required: true,
                 validate: (value) => value === watchPassword,
               })}
             />
-            {errors?.confirmPassword?.type === "required" && (
+            {errors?.passwordConfirmation?.type === "required" && (
               <InputErrorMessage>
                 A confirmação de senha é obrigatória
               </InputErrorMessage>
             )}
 
-            {errors?.confirmPassword?.type === "validate" && (
+            {errors?.passwordConfirmation?.type === "validate" && (
               <InputErrorMessage>As senhas devem ser iguais</InputErrorMessage>
             )}
           </SignUpInputContainer>
