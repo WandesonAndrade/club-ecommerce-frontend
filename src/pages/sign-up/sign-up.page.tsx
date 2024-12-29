@@ -12,6 +12,9 @@ import {
   SignUpInputContainer,
 } from "./sign-up.styles";
 import InputErrorMessage from "../../components/input-error-message/input-error-message.component";
+import { auth, db } from "../../components/config/firebase.config";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { addDoc, collection } from "firebase/firestore";
 
 interface SignUpForm {
   firstName: string;
@@ -28,7 +31,21 @@ const SignUpPage = () => {
     watch,
   } = useForm<SignUpForm>();
 
-  const handleSubmitPress = (data: any) => {
+  const handleSubmitPress = async (data: any) => {
+    try {
+      const userCredentials = await createUserWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password
+      );
+      console.log("User created successfully");
+      await addDoc(collection(db, "users"), {
+        id: userCredentials.user.uid,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: userCredentials.user.email,
+      });
+    } catch (error) {}
     console.log(data);
   };
   const watchPassword = watch("password");
