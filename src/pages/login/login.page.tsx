@@ -14,6 +14,12 @@ import {
 } from "./login.styles";
 import CustomInput from "../../components/custom-input/custom-input.component";
 import InputErrorMessage from "../../components/input-error-message/input-error-message.component";
+import {
+  AuthError,
+  AuthErrorCodes,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { auth } from "../../components/config/firebase.config";
 
 interface LoginForm {
   email: string;
@@ -25,9 +31,28 @@ const LoginPage = () => {
     register,
     formState: { errors },
     handleSubmit,
+    setError,
   } = useForm<LoginForm>();
 
-  const handleSubmitPress = (data: any) => {
+  const handleSubmitPress = async (data: LoginForm) => {
+    try {
+      const userCredentials = await signInWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password
+      );
+    } catch (error) {
+      console.log(`email não existe==>${error}`);
+      const _error = error as AuthError;
+      if (_error.code === AuthErrorCodes.INVALID_LOGIN_CREDENTIALS) {
+        setError("email", {
+          type: "invalid",
+        });
+        setError("password", {
+          type: "invalid",
+        });
+      }
+    }
     console.log(data);
   };
 
@@ -58,6 +83,9 @@ const LoginPage = () => {
             {errors?.email?.type === "validate" && (
               <InputErrorMessage>Formato de e-mail inválido</InputErrorMessage>
             )}
+            {errors?.email?.type === "invalid" && (
+              <InputErrorMessage>E-mail ou senha invalidos</InputErrorMessage>
+            )}
           </LoginInputContainer>
           <LoginInputContainer>
             <p>Senha</p>
@@ -69,6 +97,10 @@ const LoginPage = () => {
             />
             {errors?.password?.type === "required" && (
               <InputErrorMessage>A senha é obrigatória</InputErrorMessage>
+            )}
+
+            {errors?.password?.type === "invalid" && (
+              <InputErrorMessage> E-mail ou senha invalidos</InputErrorMessage>
             )}
           </LoginInputContainer>
           <CostomButton
