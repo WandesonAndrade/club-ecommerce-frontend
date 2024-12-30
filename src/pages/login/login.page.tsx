@@ -18,8 +18,14 @@ import {
   AuthError,
   AuthErrorCodes,
   signInWithEmailAndPassword,
+  signInWithPopup,
 } from "firebase/auth";
-import { auth } from "../../components/config/firebase.config";
+import {
+  auth,
+  db,
+  googleProvider,
+} from "../../components/config/firebase.config";
+import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 
 interface LoginForm {
   email: string;
@@ -54,13 +60,42 @@ const LoginPage = () => {
     }
   };
 
+  const handleSignInWithGooglePress = async () => {
+    try {
+      const useCredentials = await signInWithPopup(auth, googleProvider);
+
+      const querySnapShot = await getDocs(
+        query(
+          collection(db, "users"),
+          where("id", "==", useCredentials.user.uid)
+        )
+      );
+      const user = querySnapShot.docs[0]?.data();
+      if (!user) {
+        const firstName = useCredentials.user.displayName?.split(" ")[0];
+        const lastName = useCredentials.user.displayName?.split(" ")[1];
+
+        await addDoc(collection(db, "users"), {
+          id: useCredentials.user.uid,
+          firstName,
+          lastName,
+          email: useCredentials.user.email,
+          provider: "google",
+        });
+      }
+    } catch (error) {}
+  };
+
   return (
     <>
       <Headers />
       <LoginContainer>
         <LoginContent>
           <LoginHeadline>Entre com sua conta</LoginHeadline>
-          <CostomButton startIcon={<FcGoogle size={18} />}>
+          <CostomButton
+            onClick={() => handleSignInWithGooglePress()}
+            startIcon={<FcGoogle size={18} />}
+          >
             Entar com o Google
           </CostomButton>
           <LoginSubtitle>ou entre com seu e-mail </LoginSubtitle>
