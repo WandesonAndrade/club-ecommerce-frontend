@@ -42,7 +42,6 @@ const LoginPage = () => {
         data.password
       );
     } catch (error) {
-      console.log(`email não existe==>${error}`);
       const _error = error as AuthError;
       if (_error.code === AuthErrorCodes.INVALID_LOGIN_CREDENTIALS) {
         setError("email", {
@@ -53,7 +52,6 @@ const LoginPage = () => {
         });
       }
     }
-    console.log(data);
   };
 
   return (
