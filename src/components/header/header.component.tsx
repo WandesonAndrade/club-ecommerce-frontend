@@ -9,9 +9,12 @@ import {
 } from "./header.styles";
 import { signOut } from "firebase/auth";
 import { auth } from "../config/firebase.config";
+import { UserContext } from "../../contexts/user.context";
+import { useContext } from "react";
 
 const Header = () => {
   const navigate = useNavigate();
+  const { isAuthenticated } = useContext(UserContext);
   const heandleLoginClick = () => {
     navigate("/login");
   };
@@ -25,8 +28,13 @@ const Header = () => {
       <HeaderTitle>Club Ecommerce</HeaderTitle>
       <HeaderItems>
         <HeaderItem>Explorar</HeaderItem>
-        <HeaderItem onClick={heandleLoginClick}>Login</HeaderItem>
-        <HeaderItem onClick={heandleSignUpClick}>Criar Conta</HeaderItem>
+        {/*se o usuario estiver logado, não mostra o botão de login */}
+        {isAuthenticated && (
+          <>
+            <HeaderItem onClick={heandleLoginClick}>Login</HeaderItem>
+            <HeaderItem onClick={heandleSignUpClick}>Criar Conta</HeaderItem>
+          </>
+        )}
         <HeaderItem
           onClick={() => {
             signOut(auth);
