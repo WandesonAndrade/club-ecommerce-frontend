@@ -27,8 +27,9 @@ import {
 } from "../../components/config/firebase.config";
 import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 import { UserContext } from "../../contexts/user.context";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Loading from "../../components/loading/loading.components";
 
 interface LoginForm {
   email: string;
@@ -36,6 +37,8 @@ interface LoginForm {
 }
 
 const LoginPage = () => {
+  const [isInitializing, setIsInitializing] = useState(false);
+
   const {
     register,
     formState: { errors },
@@ -55,6 +58,7 @@ const LoginPage = () => {
 
   const handleSubmitPress = async (data: LoginForm) => {
     try {
+      setIsInitializing(true);
       const userCredentials = await signInWithEmailAndPassword(
         auth,
         data.email,
@@ -70,11 +74,14 @@ const LoginPage = () => {
           type: "invalid",
         });
       }
+    } finally {
+      setIsInitializing(false);
     }
   };
 
   const handleSignInWithGooglePress = async () => {
     try {
+      setIsInitializing(true);
       const useCredentials = await signInWithPopup(auth, googleProvider);
 
       const querySnapShot = await getDocs(
@@ -96,12 +103,16 @@ const LoginPage = () => {
           provider: "google",
         });
       }
-    } catch (error) {}
+    } catch (error) {
+    } finally {
+      setIsInitializing(false);
+    }
   };
 
   return (
     <>
       <Headers />
+      {isInitializing && <Loading />}
       <LoginContainer>
         <LoginContent>
           <LoginHeadline>Entre com sua conta</LoginHeadline>

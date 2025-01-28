@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import valitador from "validator";
 
 import { CgLogIn } from "react-icons/cg";
@@ -20,8 +20,9 @@ import {
 } from "firebase/auth";
 import { addDoc, collection } from "firebase/firestore";
 import { UserContext } from "../../contexts/user.context";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Loading from "../../components/loading/loading.components";
 
 interface SignUpForm {
   firstName: string;
@@ -31,6 +32,7 @@ interface SignUpForm {
   passwordConfirmation: string;
 }
 const SignUpPage = () => {
+  const [isInitializing, setIsInitializing] = useState(false);
   const {
     register,
     formState: { errors },
@@ -51,6 +53,7 @@ const SignUpPage = () => {
 
   const handleSubmitPress = async (data: any) => {
     try {
+      setIsInitializing(true);
       const userCredentials = await createUserWithEmailAndPassword(
         auth,
         data.email,
@@ -72,12 +75,16 @@ const SignUpPage = () => {
         });
       }
       console.log(data);
+    } finally {
+      setIsInitializing(false);
     }
   };
   const watchPassword = watch("password");
   return (
     <>
       <Header />
+
+      {isInitializing && <Loading />}
 
       <SignUpContainer>
         <SignUpContent>
