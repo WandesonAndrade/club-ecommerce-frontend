@@ -22,12 +22,16 @@ const Header = () => {
     navigate("/SignUp");
   };
 
+  const heandleHomeClick = () => {
+    navigate("/");
+  };
+
   return (
     //conteiner principal do header
     <HeaderContainer>
-      <HeaderTitle>Club Ecommerce</HeaderTitle>
+      <HeaderTitle onClick={heandleHomeClick}>Club Ecommerce</HeaderTitle>
       <HeaderItems>
-        <HeaderItem>Explorar</HeaderItem>
+        <HeaderItem onClick={heandleHomeClick}>Explorar</HeaderItem>
         {/*se o usuario estiver logado, não mostra o botão de login */}
         {!isAuthenticated && (
           <>

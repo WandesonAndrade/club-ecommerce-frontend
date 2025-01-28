@@ -8,6 +8,7 @@ export const HeaderContainer = styled.div`
   justify-content: space-between;
   padding: 20px;
   color: ${Colors.text.white};
+  cursor: pointer;
 `;
 
 export const HeaderTitle = styled.h2`
