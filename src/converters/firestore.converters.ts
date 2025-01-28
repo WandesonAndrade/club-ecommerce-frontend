@@ -7,6 +7,7 @@ import {
 
 // Importando o tipo Category, que define a estrutura esperada dos dados da categoria
 import Category from "../types/category.types";
+import User from "../types/user.types";
 
 // Um conversor personalizado para mapear o tipo Category para um formato que pode ser salvo no Firestore
 export const categoryConverter = {
@@ -31,6 +32,26 @@ export const categoryConverter = {
       imageUrl: data.imageUrl, // URL da imagem associada à categoria
       name: data.name, // Nome interno ou chave da categoria
       products: data.products, // Lista de produtos associados à categoria
+    };
+  },
+};
+
+export const userConverter = {
+  toFirestore(user: User): DocumentData {
+    return { ...user };
+  },
+  fromFirestore(
+    snapshot: QueryDocumentSnapshot, // O snapshot do documento obtido no Firestore
+    options: SnapshotOptions // Opções de personalização para a leitura do snapshot
+  ): User {
+    const data = snapshot.data(options);
+
+    return {
+      id: data.id,
+      email: data.email,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      provider: data.provider,
     };
   },
 };
