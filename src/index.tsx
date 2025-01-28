@@ -9,11 +9,11 @@ const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
-  <UserContextProvider>
-    <React.StrictMode>
+  <React.StrictMode>
+    <UserContextProvider>
       <App />
-    </React.StrictMode>
-  </UserContextProvider>
+    </UserContextProvider>
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
