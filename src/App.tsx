@@ -10,6 +10,7 @@ import { auth, db } from "./components/config/firebase.config";
 import { UserContext } from "./contexts/user.context";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { userConverter } from "./converters/firestore.converters";
+import Loading from "./components/loading/loading.components";
 
 interface AppProps {
   message?: string;
@@ -46,7 +47,7 @@ const App: FunctionComponent = () => {
 
     return setIsInitializing(false);
   });
-  if (isInitializing) return null;
+  if (isInitializing) return <Loading />;
   return (
     <BrowserRouter>
       <Routes>
